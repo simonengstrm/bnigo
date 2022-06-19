@@ -18,9 +18,9 @@ export async function getServerSideProps() {
 export default function Index ({ bingos }: { bingos: Bingo[] }) {
   return (
     <Page>
-      <div>
+      <div className="flex flex-col w-full gap-2">
         {bingos.map( (bingo, id) => (
-          <div key={id}>
+          <div key={id} >
             <BingoCard bingo={bingo} />
           </div>
         ) )}

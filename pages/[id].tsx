@@ -9,6 +9,7 @@ export async function getServerSideProps(context: { query: { id: any; }; }) {
   const { id } = context.query;
   const db = new DatabaseService();
   const bingo = await db.getBingo(id);
+  shuffle(bingo.questions);
 
   return {
     props: {
@@ -16,6 +17,25 @@ export async function getServerSideProps(context: { query: { id: any; }; }) {
     }
   }
 }
+
+function shuffle(array : any[]) {
+  let currentIndex = array.length,  randomIndex;
+
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
+
 
 export default function Game(props: { bingo: Bingo }) {
 
@@ -32,6 +52,7 @@ export default function Game(props: { bingo: Bingo }) {
     }
     return 5;
   }
+
 
   function getGrid () {
     const res : string[][] = new Array(dimension()).fill([]).map(() => new Array(dimension()).fill(""));
