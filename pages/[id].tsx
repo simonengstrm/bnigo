@@ -69,12 +69,18 @@ export default function Game(props: { bingo: Bingo }) {
   function bingoCheck() {
     
   }
+
+  const style = {
+    "gridTemplateColumns": `repeat(${dimension()}, 1fr)`,
+    "gridTemplateRows": `repeat(${dimension()}, 1fr)`,
+    "display": "grid"
+  }
   
   return (
     <Page>
-      <div className="grid grid-cols-4 grid-rows-4 gap-2">
+      <div style={style} className="gap-2 w-full">
         {bingoGrid.map((row, i) => (
-          <div key={i} >
+          <div key={i} className="w-full">
             {row.map((cell, j) => (
               <div key={j} className="">
                 <QuestionCard question={cell} bingoCheck={bingoCheck}/>
