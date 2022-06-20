@@ -119,7 +119,14 @@ export default function Game(props: { bingo: Bingo }) {
   return (
     <Page>
       
-      {isBingo && <Confetti gravity={0.15} width={width} height={height}/>}
+      {isBingo &&
+        <div className="">
+          <Confetti gravity={0.15} width={width} height={height}/>
+          <span className="pointer-events-none flex place-items-center justify-center text-9xl text-black absolute top-0 left-0 w-full h-full animate-spin">
+            BINGO
+          </span>
+        </div>
+      }
     
       <div style={style} className="gap-2 w-full">
         {bingoGrid.map((row, i) => (
