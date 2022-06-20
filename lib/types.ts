@@ -6,3 +6,8 @@ export interface Bingo extends WithId<Document>{
   description: string;
   questions: string[];
 }
+
+export interface Question {
+  question: string;
+  isAnswered: boolean;
+}

@@ -1,4 +1,4 @@
-import { Bingo } from "../lib/types";
+import { Bingo, Question } from "../lib/types";
 import DatabaseService from "../lib/db.service";
 import { GetServerSideProps } from "next";
 import { useState } from "react";
@@ -55,10 +55,14 @@ export default function Game(props: { bingo: Bingo }) {
 
 
   function getGrid () {
-    const res : string[][] = new Array(dimension()).fill([]).map(() => new Array(dimension()).fill(""));
+    const res : Question[][] = new Array(dimension()).fill([]).map(() => new Array(dimension()).fill(""));
     for (let i = 0; i < dimension(); i++) {
       for (let j = 0; j < dimension(); j++) {
-        res[i][j] = props.bingo.questions[i * dimension() + j];
+        res[i][j] = {
+          question: props.bingo.questions[i * dimension() + j],
+          isAnswered: false
+        }
+          
       }
     }
     return res;
