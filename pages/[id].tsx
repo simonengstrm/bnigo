@@ -1,9 +1,11 @@
 import { Bingo, Question } from "../lib/types";
 import DatabaseService from "../lib/db.service";
 import { GetServerSideProps } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Page from "../src/components/Page";
 import QuestionCard from "../src/components/QuestionCard";
+import { useWindowSize } from 'react-use';
+import Confetti from "react-confetti";
 
 export async function getServerSideProps(context: { query: { id: any; }; }) {
   const { id } = context.query;
@@ -53,6 +55,8 @@ export default function Game(props: { bingo: Bingo }) {
     return 5;
   }
 
+  const [isBingo, setIsBingo] = useState(false);
+  const [bingoGrid, setBingoGrid] = useState(getGrid());
 
   function getGrid () {
     const res : Question[][] = new Array(dimension()).fill([]).map(() => new Array(dimension()).fill(""));
@@ -68,10 +72,40 @@ export default function Game(props: { bingo: Bingo }) {
     return res;
   }
 
-  const [bingoGrid, setBingoGrid] = useState(getGrid());
-
   function bingoCheck() {
-    
+
+    setIsBingo(false);
+
+    // Check rows
+    for (let i = 0; i < bingoGrid.length; i++) {
+      for (let j = 0; j < bingoGrid[i].length; j++) {
+        if (!bingoGrid[j][i].isAnswered) {
+          break;
+        } else {
+          if (j == bingoGrid[i].length-1) {
+            setIsBingo(true);
+            return;
+          }
+          continue;
+        }
+      }
+    }
+
+    // Check columns
+    for (let i = 0; i < bingoGrid.length; i++) {
+      for (let j = 0; j < bingoGrid[i].length; j++) {
+        if (!bingoGrid[i][j].isAnswered) {
+          break;
+        } else {
+          if (j == bingoGrid[i].length-1) {
+            setIsBingo(true);
+            return;
+          }
+          continue;
+        }
+      }
+    }
+
   }
 
   const style = {
@@ -79,9 +113,14 @@ export default function Game(props: { bingo: Bingo }) {
     "gridTemplateRows": `repeat(${dimension()}, 1fr)`,
     "display": "grid"
   }
+
+  const {width, height} = useWindowSize();
   
   return (
     <Page>
+      
+      {isBingo && <Confetti gravity={0.15} width={width} height={height}/>}
+    
       <div style={style} className="gap-2 w-full">
         {bingoGrid.map((row, i) => (
           <div key={i} className="w-full">

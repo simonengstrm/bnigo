@@ -5,7 +5,7 @@ export default function Page( { children }: { children: React.ReactNode } ) {
   return (
     <div>
       <Head />
-      <div className="place-items-center justify-center flex lg:w-1/2 m-auto">
+      <div className="place-items-center justify-center flex w-11/12 lg:w-1/2 m-auto">
         {children}
       </div>
     </div>
