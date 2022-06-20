@@ -122,7 +122,7 @@ export default function Game(props: { bingo: Bingo }) {
       {isBingo &&
         <div className="">
           <Confetti gravity={0.15} width={width} height={height}/>
-          <span className="pointer-events-none flex place-items-center justify-center text-9xl text-black absolute top-0 left-0 w-full h-full animate-spin">
+          <span className="pointer-events-none flex place-items-center justify-center text-9xl text-black absolute top-0 left-0 w-full h-full animate-spin z-50">
             BINGO
           </span>
         </div>
