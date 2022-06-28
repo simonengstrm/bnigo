@@ -1,10 +1,15 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 import Link from "next/link";
+import Head from "next/head";
 
 export default function Page({ children }: { children: React.ReactNode }) {
   return (
     <div>
-      <Head />
+      <Head>
+        <title>Bnigo 💕</title>
+        <link rel="shortcut icon" href="/favicon.ico"/>
+      </Head>
+      <Header />
       <div className="place-items-center justify-center flex w-11/12 lg:w-1/2 m-auto">
         {children}
       </div>
@@ -12,7 +17,7 @@ export default function Page({ children }: { children: React.ReactNode }) {
   );
 }
 
-function Head() {
+function Header() {
   return (
     <div className="place-items-center text-center w-full m-auto py-4">
       <a href="/">
