@@ -1,9 +1,9 @@
-import { Bingo, Question } from "../lib/types";
-import DatabaseService from "../lib/db.service";
+import { Bingo, Question } from "../../lib/types";
+import DatabaseService from "../../lib/db.service";
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
-import Page from "../src/components/Page";
-import QuestionCard from "../src/components/QuestionCard";
+import Page from "../../src/components/Page";
+import QuestionCard from "../../src/components/QuestionCard";
 import { useWindowSize } from "react-use";
 import Confetti from "react-confetti";
 
@@ -119,7 +119,7 @@ export default function Game(props: { bingo: Bingo }) {
     <Page>
       {isBingo && (
         <div className="">
-          <Confetti gravity={0.15} width={width} height={height} />
+          <Confetti gravity={0.2} numberOfPieces={400} width={width} height={height} />
           <span className="pointer-events-none flex place-items-center justify-center text-9xl text-black absolute top-0 left-0 w-full h-full animate-spin z-50">
             BINGO
           </span>
