@@ -81,13 +81,13 @@ export default function Game(props: { bingo: Bingo }) {
       for (let j = 0; j < bingoGrid[i].length; j++) {
         if (!bingoGrid[j][i].isAnswered) {
           break;
-        } else {
-          if (j == bingoGrid[i].length - 1) {
-            setIsBingo(true);
-            return;
-          }
-          continue;
         }
+        if (j == bingoGrid[i].length - 1) {
+          setIsBingo(true);
+          return;
+        }
+        continue;
+      
       }
     }
 
@@ -96,15 +96,28 @@ export default function Game(props: { bingo: Bingo }) {
       for (let j = 0; j < bingoGrid[i].length; j++) {
         if (!bingoGrid[i][j].isAnswered) {
           break;
-        } else {
-          if (j == bingoGrid[i].length - 1) {
-            setIsBingo(true);
-            return;
-          }
-          continue;
+        } 
+        if (j == bingoGrid[i].length - 1) {
+          setIsBingo(true);
+          return;
         }
+        continue;
       }
     }
+
+    // Check diagonals
+    for (let i = 0; i < bingoGrid.length; i++) {
+      if (!bingoGrid[i][i].isAnswered && !bingoGrid[i][bingoGrid.length-i-1].isAnswered) {
+        break;
+      }
+
+      if (i == bingoGrid.length-1) {
+        setIsBingo(true);
+        return;
+      }
+      
+    }
+
   }
 
   const style = {
