@@ -1,41 +1,41 @@
 /**
  * Connects to mongodb and returns a db object
  */
-import { ObjectId } from "mongodb";
 import clientPromise from "./mongodb";
 import { Bingo } from "./types";
 
 export default class DatabaseService {
+  async getBingos(): Promise<Bingo[]> {
+    const bingoCollection = await this.getBingoCollection();
 
-  async getBingos() : Promise<Bingo[]> {
-    const client = await clientPromise;
-    const result = await client
-      .db(process.env.MONGODB_DB)
-      .collection<Omit<Bingo, "id">>("bingos")
-      .find()
+    const result: Bingo[] = await bingoCollection
+      .find({}, { projection: { _id: 0 } })
       .toArray();
 
-      return result.map(this.serializeId) as Bingo[];
+    return result.map((bingo) => {
+      return bingo;
+    });
   }
 
-  async getBingo(id: string) : Promise<Bingo> {
-    const client = await clientPromise;
-    const result = await client
-      .db(process.env.MONGODB_DB)
-      .collection<Omit<Bingo, "id">>("bingos")
-      .findOne({ _id: new ObjectId(id) });
+  async getBingo(name: string): Promise<Bingo> {
+    const bingoCollection = await this.getBingoCollection();
 
-      return this.serializeId(result) as Bingo;
-  }
-
-  private serializeId<T>(obj: T & { _id: ObjectId }): T & { id: string } {
-    const result = {
-      ...obj,
-      id: obj._id.toHexString(),
-    };
-
-    delete result._id;
+    const result: Bingo | null = await bingoCollection.findOne(
+      { name: name },
+      { projection: { _id: 0 } }
+    );
+    if (!result) {
+      throw new Error("Bingo not found");
+    }
     return result;
   }
 
+  private async getBingoCollection() {
+    const client = await clientPromise;
+    const bingoCollection = client
+      .db(process.env.MONGODB_DB)
+      .collection<Bingo>("bingos");
+
+    return bingoCollection;
+  }
 }
