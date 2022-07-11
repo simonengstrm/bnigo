@@ -19,7 +19,7 @@ export default function Page({ children }: { children: React.ReactNode }) {
 
 function Header() {
   return (
-    <div className="place-items-center text-center w-full m-auto py-4">
+    <div className="place-items-center text-center w-full m-auto py-4 mb-2 border-b border-gray-300 bg-white">
       <a href="/">
         <span className="text-5xl font-bold">Bnigo</span>
         <br />
