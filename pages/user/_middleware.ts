@@ -1,6 +1,7 @@
 import DatabaseService from "../../lib/db.service";
 import { hasCookie } from "cookies-next";
 import { NextRequest, NextResponse } from "next/server";
+import { UnorderedBulkOperation } from "mongodb";
 
 /**
  * Middleware for the user pages
@@ -9,8 +10,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export default async function isLoggedIn(req : NextRequest) {
   // Check if the logged in cookie is set
-  if (!hasCookie("loggedIn")) {
-    return NextResponse.redirect("/");
+  if (!hasCookie("bnigoLoggedIn")) {
+    return NextResponse.redirect(new URL("/403", req.url));
   }
   return NextResponse.next();
 }

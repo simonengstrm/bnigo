@@ -10,7 +10,7 @@ export default function Page({ children }: { children: React.ReactNode }) {
         <link rel="shortcut icon" href="/favicon.ico"/>
       </Head>
       <Header />
-      <div className="place-items-center justify-center flex w-11/12 lg:w-1/2 m-auto">
+      <div className="flex-col grow w-11/12 m-auto">
         {children}
       </div>
     </div>
