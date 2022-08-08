@@ -8,3 +8,8 @@ export interface Question {
   question: string;
   isAnswered: boolean;
 }
+
+export interface User {
+  username: string;
+  password: string;
+}

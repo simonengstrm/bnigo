@@ -2,9 +2,13 @@
  * Connects to mongodb and returns a db object
  */
 import clientPromise from "./mongodb";
-import { Bingo } from "./types";
+import { Bingo, User } from "./types";
 
 export default class DatabaseService {
+
+  /**
+   * Returns a list of all bingos
+   */
   async getBingos(): Promise<Bingo[]> {
     const bingoCollection = await this.getBingoCollection();
 
@@ -17,6 +21,11 @@ export default class DatabaseService {
     });
   }
 
+  /**
+   * Returns a bingo given its name
+   * @param name The name of the bingo
+   * @returns The bingo with the given name
+   */
   async getBingo(name: string): Promise<Bingo> {
     const bingoCollection = await this.getBingoCollection();
 
@@ -30,7 +39,27 @@ export default class DatabaseService {
     return result;
   }
 
-  private async getBingoCollection() {
+  /**
+   * Gets a user given its username
+   */
+  async getUser(username: string) : Promise<User> {
+    const userCollection = await this.getUserCollection();
+
+    const user : User | null = await userCollection.findOne({username : username});
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    return user;
+  }
+
+  /**
+   * Returns a the bingo collection
+   * Makes the code more readable
+   * @returns 
+   */
+   private async getBingoCollection() {
     const client = await clientPromise;
     const bingoCollection = client
       .db(process.env.MONGODB_DB)
@@ -38,4 +67,15 @@ export default class DatabaseService {
 
     return bingoCollection;
   }
+
+  /**
+   * Returns the user collection
+   */
+  private async getUserCollection() {
+    const client = await clientPromise;
+    const userCollection = client.db(process.env.MONGODB_DB).collection<User>("users");
+
+    return userCollection;
+  }
+
 }
