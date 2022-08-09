@@ -10,7 +10,7 @@ import { UnorderedBulkOperation } from "mongodb";
 export default async function isLoggedIn(req : NextRequest) {
   // Check if the logged in cookie is set
   if (!req.cookies.bnigoLoggedIn) {
-    return NextResponse.redirect(new URL("/403", req.url));
+    return NextResponse.redirect(new URL("/login", req.url));
   }
   return NextResponse.next();
 }

@@ -1,4 +1,3 @@
-import { getCookie } from "cookies-next";
 import Page from "../../src/components/Page";
 
 export default function Admin() {
