@@ -1,16 +1,27 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import DatabaseService from "../../../lib/db.service";
-import { setCookie } from "cookies-next";
+import cookie from "cookie";
 
 export default async function login(req : NextApiRequest, res : NextApiResponse) {
   if (req.method === "POST") {
     const body = JSON.parse(req.body);
     const db = new DatabaseService();
-    const dbpassword = (await db.getUser(body.user.username)).password;
+    const dbuser = await db.getUser(body.user.username);
 
-    if (dbpassword == body.user.password) {
+    if (!dbuser) {
+      res.status(404).json({ message: "User not found" });
+    }
+
+    if (dbuser.password == body.user.password) {
       // Save logged in cookie
-      res.status(200).json({ message: "Login successfull" });
+      const headers = cookie.serialize("bnigoLoggedIn", "true", {
+          path: "/",
+          sameSite: "strict",
+          maxAge: 60 * 60 * 24 * 7,
+          httpOnly: true,
+        });
+      res.setHeader("Set-Cookie", headers);
+      res.status(200).json({ message: "Logged in" });
     } else {
       // Return error
       res.status(401).json({ error: "Invalid username or password" });

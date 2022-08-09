@@ -45,13 +45,9 @@ export default class DatabaseService {
   async getUser(username: string) : Promise<User> {
     const userCollection = await this.getUserCollection();
 
-    const user : User | null = await userCollection.findOne({username : username});
+    const result = await userCollection.find({username : username}).toArray();
 
-    if (!user) {
-      throw new Error("User not found");
-    }
-
-    return user;
+    return result[0];
   }
 
   /**

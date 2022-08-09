@@ -2,7 +2,6 @@ import { stringify } from "querystring";
 import React, { ChangeEvent, ChangeEventHandler, useState } from "react";
 import Page from "../src/components/Page";
 import { useRouter } from "next/router";
-import { setCookie } from "cookies-next";
 
 export default function Login() {
 
@@ -28,7 +27,6 @@ export default function Login() {
     });
 
     if(result.status == 200) {
-      setCookie("bnigoLoggedIn", JSON.stringify({username: form.username, password: form.password}), {maxAge: 60 * 60 * 24 * 7, httpOnly: true, sameSite: "strict", path: "/"});
       router.push(new URL("/user", document.baseURI))
     } else {
       alert(result.status)
