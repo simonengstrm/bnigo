@@ -24,7 +24,7 @@ export default async function login(req : NextApiRequest, res : NextApiResponse)
       res.status(200).json({ message: "Logged in" });
     } else {
       // Return error
-      res.status(401).json({ error: "Invalid username or password" });
+      res.status(401).json({error: "Invalid username or password"});
     }
   } else {
     res.status(405).json({ error: "Method not allowed. You used "+req.method+" instead of POST" });

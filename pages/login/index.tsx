@@ -1,6 +1,6 @@
 import { stringify } from "querystring";
 import React, { ChangeEvent, ChangeEventHandler, useState } from "react";
-import Page from "../src/components/Page";
+import Page from "../../src/components/Page";
 import { useRouter } from "next/router";
 
 export default function Login() {
@@ -10,6 +10,7 @@ export default function Login() {
     username : "",
     password : ""
   });
+  const [error, setError] = useState("");
 
   function isValidForm() {
     return !(form.username == "" || form.password == "");
@@ -29,7 +30,7 @@ export default function Login() {
     if(result.status == 200) {
       router.push(new URL("/user", document.baseURI))
     } else {
-      alert(result.status)
+      setError((await result.json()).error);
     }
   }
 
@@ -59,6 +60,7 @@ export default function Login() {
               :
               <button disabled onClick={submitForm} className="cursor-pointer w-full p-2 rounded-full text-center bg-gray-400 text-black">Login</button>
             }
+            {error == "" ? <></> : <span className="text-red-500 text-sm">{error}</span>}
             <div className="text-center">Not a member? Flip me!</div>
           </div>
         </div>
