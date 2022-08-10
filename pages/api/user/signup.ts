@@ -14,4 +14,4 @@ export default async function signup(req : NextApiRequest, res : NextApiResponse
   } else {
     res.status(405).json({ error: "Method not allowed. You used "+req.method+" instead of POST" });
   }
-}   
+}

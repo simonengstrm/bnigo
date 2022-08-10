@@ -1,4 +1,3 @@
-import { stringify } from "querystring";
 import React, { ChangeEvent, ChangeEventHandler, useState } from "react";
 import Page from "../../src/components/Page";
 import { useRouter } from "next/router";
@@ -45,6 +44,10 @@ export default function Login() {
     });
   }
 
+  function getCurrentModeName() : string {
+    return signupMode ? "Sign up" : "Log in"
+  }
+
   return (
     <Page>
       <div className="flex w-full justify-center">
@@ -60,9 +63,9 @@ export default function Login() {
               <input type="password" name="password" value={form.password} onChange={handleChange} className="h-8 rounded-md grow border"/>
             </div>
             {isValidForm() ? 
-              <button onClick={submitForm} className="cursor-pointer w-full p-2 rounded-full text-center bg-green-600 hover:bg-green-500 text-white">Login</button>
+              <button onClick={submitForm} className="cursor-pointer w-full p-2 rounded-full text-center bg-green-600 hover:bg-green-500 text-white">{getCurrentModeName()}</button>
               :
-              <button disabled onClick={submitForm} className="cursor-pointer w-full p-2 rounded-full text-center bg-gray-400 text-black">Login</button>
+              <button disabled onClick={submitForm} className="cursor-pointer w-full p-2 rounded-full text-center bg-gray-400 text-black">{getCurrentModeName()}</button>
             }
             {error == "" ? <></> : <span className="text-red-500 text-sm">{error}</span>}
             <div className="text-center">Not a member? <a href="#" onClick={() => setSignupMode(!signupMode)}>Click here</a>!</div>
