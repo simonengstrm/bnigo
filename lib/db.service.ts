@@ -51,6 +51,15 @@ export default class DatabaseService {
   }
 
   /**
+   * Creates a new user given information
+   */
+  async createUser(user: User) {
+    const userCollection = await this.getUserCollection();
+
+    await userCollection.insertOne(user);
+  }
+
+  /**
    * Returns a the bingo collection
    * Makes the code more readable
    * @returns 

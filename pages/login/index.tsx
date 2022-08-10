@@ -11,13 +11,17 @@ export default function Login() {
     password : ""
   });
   const [error, setError] = useState("");
+  const [signupMode, setSignupMode] = useState(false);
 
   function isValidForm() {
     return !(form.username == "" || form.password == "");
   }
 
   async function submitForm() {
-    const result = await fetch("/api/auth/login", {
+
+    const apiURL : string = signupMode ? "/api/user/signup" : "/api/auth/login";
+
+    const result = await fetch(apiURL, {
       method: 'POST',
       body: JSON.stringify({
         user: {
@@ -46,7 +50,7 @@ export default function Login() {
       <div className="flex w-full justify-center">
         <div className="flex w-1/2 bg-white p-4 rounded-xl shadow-lg ">
           <div className="flex space-y-4 flex-col w-full place-items-center">
-            <span className="text-3xl font-bold">Log in</span>
+            <span className="text-3xl font-bold">{signupMode ? "Sign up" : "Log in"}</span>
             <div className="flex flex-col w-full">
               <span className="text-sm">Username</span>
               <input type="text" name="username" value={form.username} onChange={handleChange} className="h-8 rounded-md grow border"/>
@@ -61,7 +65,7 @@ export default function Login() {
               <button disabled onClick={submitForm} className="cursor-pointer w-full p-2 rounded-full text-center bg-gray-400 text-black">Login</button>
             }
             {error == "" ? <></> : <span className="text-red-500 text-sm">{error}</span>}
-            <div className="text-center">Not a member? Flip me!</div>
+            <div className="text-center">Not a member? <a href="#" onClick={() => setSignupMode(!signupMode)}>Click here</a>!</div>
           </div>
         </div>
       </div>
