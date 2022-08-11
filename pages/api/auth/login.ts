@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import DatabaseService from "../../../lib/db.service";
 import cookie from "cookie";
+import bcrypt from "bcryptjs";
 
 export default async function login(req : NextApiRequest, res : NextApiResponse) {
   if (req.method === "POST") {
@@ -12,7 +13,7 @@ export default async function login(req : NextApiRequest, res : NextApiResponse)
       res.status(404).json({ message: "User not found" });
     }
 
-    if (dbuser.password == body.user.password) {
+    if (bcrypt.compareSync(body.user.password, dbuser.password)) {
       // Save logged in cookie
       const headers = cookie.serialize("bnigoLoggedIn", "true", {
           path: "/",

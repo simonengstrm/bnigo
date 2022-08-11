@@ -1,6 +1,4 @@
-import DatabaseService from "../../lib/db.service";
 import { NextRequest, NextResponse } from "next/server";
-import { UnorderedBulkOperation } from "mongodb";
 
 /**
  * Middleware for the user pages
