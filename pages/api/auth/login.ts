@@ -2,8 +2,14 @@ import { NextApiRequest, NextApiResponse } from "next";
 import DatabaseService from "../../../lib/db.service";
 import cookie from "cookie";
 import bcrypt from "bcryptjs";
+import jose from "jose";
+import { KeyObject } from "crypto";
 
 export default async function login(req : NextApiRequest, res : NextApiResponse) {
+  if (!process.env.JWT_SECRET) {
+    res.status(500).json({error: "Internal server error"})
+  }
+
   if (req.method === "POST") {
     const body = JSON.parse(req.body);
     const db = new DatabaseService();
@@ -15,6 +21,9 @@ export default async function login(req : NextApiRequest, res : NextApiResponse)
 
     if (bcrypt.compareSync(body.user.password, dbuser.password)) {
       // Save logged in cookie
+
+      const jwt = new jose.SignJWT({"username": body.user.username}).sign(new TextEncoder().encode(process.env.JWT_SECRET));
+
       const headers = cookie.serialize("bnigoLoggedIn", "true", {
           path: "/",
           sameSite: "strict",
