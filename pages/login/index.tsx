@@ -18,8 +18,18 @@ export default function Login() {
     });
   }, [signupMode])
 
+  /**
+   * Matches password to regex
+   * At least 8 characters long
+   * At least one letter, one digit and one special character
+   */
+  function isValidPassword() {
+    const regex : RegExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    console.log(regex.test(form.password));
+  }
+  
   function isValidForm() {
-    return !(form.username == "" || form.password == "");
+    return form.username != "" && form.password != "" && isValidPassword();
   }
 
   async function submitForm(event: FormEvent<HTMLFormElement>) {
@@ -71,6 +81,9 @@ export default function Login() {
               <div className="flex flex-col w-full">
                 <span className="text-sm">Password</span>
                 <input type="password" name="password" value={form.password} onChange={handleChange} className="h-8 rounded-md grow border"/>
+                { signupMode &&
+                  <span className="text-sm">Password must be minimum 8 characters long, include one letter, special character and digit.</span>
+                }
               </div>
               {isValidForm() ? 
                 <button type="submit" className="cursor-pointer w-full p-2 rounded-full text-center bg-green-600 hover:bg-green-500 text-white">{getCurrentModeName()}</button>
@@ -78,7 +91,7 @@ export default function Login() {
                 <button type="submit" disabled className="cursor-pointer w-full p-2 rounded-full text-center bg-gray-400 text-black">{getCurrentModeName()}</button>
               }
               {error == "" ? <></> : <span className="text-red-500 text-sm">{error}</span>}
-              <div className="text-center">Not a member? <a href="#" className="underline text-blue-600" onClick={() => setSignupMode(!signupMode)}>Click here</a>!</div>
+              <div className="text-center">{signupMode ? "Already a member? " : "Not a member? " }<a href="#" className="underline text-blue-600" onClick={() => setSignupMode(!signupMode)}>Click here</a>!</div>
             </div>
           </div>
         </div>
