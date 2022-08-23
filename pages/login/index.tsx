@@ -25,7 +25,7 @@ export default function Login() {
    */
   function isValidPassword() {
     const regex : RegExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-    console.log(regex.test(form.password));
+    return regex.test(form.password);
   }
   
   function isValidForm() {
@@ -44,7 +44,7 @@ export default function Login() {
           password: form.password
         }
       })
-    });
+    })
 
     if(result.status == 200 && !signupMode) {
       router.push(new URL("/user", document.baseURI))
