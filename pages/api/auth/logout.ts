@@ -1,20 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import cookie from "cookie";
-
+import Cookies from "cookies";
 /**
  * Function that, upon receiving a POST request, logs the user out by deleting the cookie.
  */
 
 export default function logout(req : NextApiRequest, res : NextApiResponse) {
   if(req.method == "POST") {
-    const headers = cookie.serialize("bnigoLoggedIn", "false", {
+    const cookies = new Cookies(req, res);
+    cookies.set("bnigoLoggedIn", "false", {
       path: "/",
       sameSite: "strict",
       maxAge: -1,
       httpOnly: true,
     });
 
-    res.setHeader("Set-Cookie", headers);
     res.status(200).json({ message: "Logged out" });
 
   } else {

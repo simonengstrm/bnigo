@@ -47,6 +47,7 @@ export default function Login() {
     })
 
     if(result.status == 200 && !signupMode) {
+      console.log("Pushing to /user")
       router.push(new URL("/user", document.baseURI))
     } else {
       setError((await result.json()).error);
